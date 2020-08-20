@@ -5,9 +5,7 @@ const MyUpload = () => {
   const [fileList, setFileList] = useState([])
 
   const handleChange = ({ fileList }) => {
-    console.log(fileList)
     const files = fileList.slice(0, 2)
-    console.log(files)
     setFileList(files)
   }
   return (
