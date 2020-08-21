@@ -15,6 +15,7 @@ function MgUpload(props, ref) {
   } = props
   const [files, setFiles] = useState([]);
   const inputRef = useRef();
+  
 
   const onChange = (info) => {
     const fileLists = [];
