@@ -15,7 +15,7 @@ function MgUpload(props, ref) {
   } = props
   const [files, setFiles] = useState([]);
   const inputRef = useRef();
-  
+
 
   const onChange = (info) => {
     const fileLists = [];
@@ -49,6 +49,9 @@ function MgUpload(props, ref) {
   }
 
   const newFileList = fileList || files;
+  if (newFileList.length > length) {
+    newFileList.splice(length)
+  }
   return (
     <div className='mg-upload'>
       <input
@@ -61,11 +64,14 @@ function MgUpload(props, ref) {
         onChange={onChange}
       />
       {uploadType === 'accessory' ? <div className='mg-upload-accessory'>
-        <button className='mg-upload-button' onClick={() => { inputRef.current.click() }}>
+        <button
+          className={newFileList.length === length ? 'mg-upload-button-disabled' : 'mg-upload-button'}
+          onClick={() => { inputRef.current.click() }}
+          disabled={newFileList.length === length}
+        >
           {children || <div className='mg-upload-button-content'>
             <span className='mg-upload-button-content-icon'></span>选择文件
-          </div>
-          }
+          </div>}
         </button>
         {newFileList.map(item => <div className='mg-upload-accessory-item' key={item.uid}>
           <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -90,14 +96,14 @@ function MgUpload(props, ref) {
               <img style={{ width: '100%', height: '100%' }} key={item.uid} src={item.url || window.URL.createObjectURL(item.originFileObj)} />
             </div>)
           }
-          <div
+          {newFileList.length !== length && <div
             className='mg-upload-picture-select'
             style={{ display: newFileList.length > length ? 'none' : 'flex' }}
             onClick={() => { inputRef.current.click() }}
           >
             <div className='mg-upload-picture-select-content-icon'></div>
             <div className='mg-upload-picture-select-content-text'>选择图片</div>
-          </div>
+          </div>}
         </div>
       }
     </div>

@@ -10,7 +10,7 @@ const MyUpload = () => {
   }
   return (
     <div style={{ width: 400, height: '100%', padding: 24 }}>
-      <MgUpload handleChange={handleChange} uploadType='picture' />
+      <MgUpload handleChange={handleChange} uploadType='accessory' multiple={true} length={5} />
     </div>
   )
 }

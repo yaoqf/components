@@ -34,6 +34,28 @@
   color: #208cff;
   border: 1px solid #208cff;
 }
+.mg-upload .mg-upload-accessory .mg-upload-button-disabled {
+  display: inline-block;
+  align-items: center;
+  padding: 6px 12px;
+  background: #f5f5f5;
+  border: 1px solid #D7DAE0;
+  border-radius: 2px;
+}
+.mg-upload .mg-upload-accessory .mg-upload-button-disabled .mg-upload-button-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.mg-upload .mg-upload-accessory .mg-upload-button-disabled .mg-upload-button-content .mg-upload-button-content-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background: url('../public/svg/upload.svg');
+  background-repeat: no-repeat;
+}
 .mg-upload .mg-upload-accessory .mg-upload-accessory-item {
   display: flex;
   align-items: center;
