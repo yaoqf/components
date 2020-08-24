@@ -1,3 +1,4 @@
+import axios from 'axios';
 function uuids() {
   const s = [];
   const hexDigits = '0123456789abcdef';
@@ -47,4 +48,53 @@ function download(url, filename) {
   });
 };
 
-export { uuids, download }
+function getRandomStr(length = 5) {
+  const sourceStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let ret = '';
+  for (let i = 0; length > i; i += 1) {
+    ret += sourceStr.charAt(Math.floor(Math.random() * sourceStr.length));
+  }
+  return ret;
+}
+
+const handleUpload = async (fileList) => {
+  if (fileList.length === 0) {
+    return [];
+  }
+  // const token = await dispatch({ type: 'common/getQiniuToken' });
+  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:NqGoFVu8myRWsWzXslteu7uOIRE=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4MjU2Njk2fQ=="
+
+  // // 获取已存在的文件的key
+  const existKeys = fileList.filter(item => item.key).map(item => item.key);
+  // 获取新增的文件
+  const addImageList = fileList.filter(item => !item.key);
+  // 获取所有新增的promise
+  const promises = addImageList.map(file => {
+    // add by Moriaty at 2020-8-16 start
+    const { originFileObj, type } = file;
+    // 获取后缀
+    const suffix = type.split('/').reverse()[0];
+
+    const formData = new FormData();
+    const key = getRandomStr(10) + new Date().getTime();
+    formData.append('file', originFileObj);
+    formData.append('token', token);
+    formData.append('key', `${key}.${suffix}`);
+    return axios('https://up.qbox.me/', {
+      method: 'POST',
+      data: formData,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    }).then(res => res.data);
+  });
+  const imageSource = await Promise.all(promises);
+  // 获取新增图片的keys
+  const addImageKeys = imageSource.map(item => {
+    const { key } = item;
+    return `${key}`;
+  });
+  // 获取所有图片keys
+  const imageKeysArr = existKeys.concat(addImageKeys);
+  return imageKeysArr;
+};
+
+export { uuids, download, handleUpload }

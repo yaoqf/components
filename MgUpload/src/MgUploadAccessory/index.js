@@ -1,11 +1,10 @@
-import React, { useState, forwardRef, useRef } from "react";
-import "./index.css";
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import './index.css';
 import { uuids, download } from '../utils/utils'
-const imgBaseUrl = 'https://images.mogulinker.com';
 
-function MgUpload(props, ref) {
+const MgUploadAccessory = (props, ref) => {
   const {
-    fileList,
+    fileList = [],
     children,
     uploadType = 'accessory',
     length = 6,
@@ -16,10 +15,29 @@ function MgUpload(props, ref) {
     handleChange = () => { },
     handleRemove = () => { },
     handleDownload = () => { },
+    imgBaseUrl = 'https://images.mogulinker.com',
   } = props
   const [files, setFiles] = useState([]);
   const inputRef = useRef();
 
+  // 如果不自动上传，展示的文件列表只依赖传进来的fileList
+  useEffect(() => {
+    if (!autoUpload) {
+      const newFileList = fileList.map(item => typeof item === 'object' && item.size ? item : initImage(item))
+      setFiles(newFileList)
+    }
+  }, [fileList])
+
+  // 初始化附件格式
+  function initImage(file) {
+    const newFile = {
+      uid: uuids(),
+      key: file.key,
+      name: file.name,
+      url: file.key.indexOf('/') === -1 ? `${imgBaseUrl}/${file.key}` : `${imgBaseUrl}${file.key}`,
+    }
+    return newFile;
+  }
 
   const onChange = (info) => {
     const fileLists = [];
@@ -36,26 +54,33 @@ function MgUpload(props, ref) {
       };
       fileLists.push(file);
     });
-    // if (!fileList) {
-    //   setFiles([...files, ...fileLists])
-    // }
     if (autoUpload) {
-      // 自动上传，直接返回所有的keys
-      // handleChange(fileLists);
+      // // 自动上传就返回所有的key
+      // handleUpload(fileLists).then(res => {
+      //   if (res) {
+      //     handleChange([...fileList, ...res])
+      //     const addKeys = res.map(item => initImage(item))
+      //     autoUploadRef.current = [...fileList, ...res]
+      //     setFiles([...files, ...addKeys])
+      //   }
+      // })
     } else {
-      // 不自动上传，返回改变的文件
-      handleChange(fileLists);
+      // 自定义上传就返回新选择的图片对象
+      handleChange(fileLists)
     }
+
   };
 
   // 移除的回调
   const handleDelete = (file, e) => {
     e.stopPropagation()
     const newFiles = files.filter(item => item.uid !== file.uid)
-    if (!fileList) {
-      setFiles(newFiles)
+    if (autoUpload) {
+      // setFiles(newFiles)
+      // handleRemove(file, newFilesKeys)
+    } else {
+      handleRemove(file, newFiles)
     }
-    handleRemove(file)
   }
 
   // 点击下载
@@ -68,10 +93,7 @@ function MgUpload(props, ref) {
     handleDownload(file)
   }
 
-  const newFileList = fileList || files;
-  if (newFileList.length > length) {
-    newFileList.splice(length)
-  }
+  console.log(files)
   return (
     <div className='mg-upload'>
       <input
@@ -80,20 +102,20 @@ function MgUpload(props, ref) {
         type="file"
         accept={accept}
         multiple={multiple}
-        files={newFileList}
+        files={files}
         onChange={onChange}
       />
-      {uploadType === 'accessory' ? <div className='mg-upload-accessory'>
+      <div className='mg-upload-accessory'>
         <button
-          className={newFileList.length === length ? 'mg-upload-button-disabled' : 'mg-upload-button'}
+          className={files.length === length ? 'mg-upload-button-disabled' : 'mg-upload-button'}
           onClick={() => { inputRef.current.click() }}
-          disabled={newFileList.length === length}
+        // disabled={newFileList.length === length}
         >
           {children || <div className='mg-upload-button-content'>
             <span className='mg-upload-button-content-icon'></span>选择文件
           </div>}
         </button>
-        {newFileList.map(item =>
+        {files.map(item =>
           <div
             className='mg-upload-accessory-item'
             key={item.uid}
@@ -108,29 +130,8 @@ function MgUpload(props, ref) {
             ></span>
           </div>)}
       </div>
-        :
-        <div className='mg-upload-picture' >
-          {newFileList.map(item => <div key={item.uid} className='mg-upload-picture-content'>
-            <div className='mg-upload-picture-content-shade'>
-              <div className='mg-upload-picture-content-icon'>
-                <span className='mg-upload-picture-content-icon-view' />
-                <span className='mg-upload-picture-content-icon-delete' onClick={() => handleDelete(item)} />
-              </div>
-            </div>
-            <img style={{ width: '100%', height: '100%' }} key={item.uid} src={item.url || window.URL.createObjectURL(item.originFileObj)} />
-          </div>)}
-          {newFileList.length !== length && <div
-            className='mg-upload-picture-select'
-            style={{ display: newFileList.length > length ? 'none' : 'flex' }}
-            onClick={() => { inputRef.current.click() }}
-          >
-            <div className='mg-upload-picture-select-content-icon'></div>
-            <div className='mg-upload-picture-select-content-text'>选择图片</div>
-          </div>}
-        </div>
-      }
     </div>
-  );
+  )
 }
 
-export default forwardRef(MgUpload);
+export default forwardRef(MgUploadAccessory);
