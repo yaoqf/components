@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import './index.css';
-import { uuids, download } from '../utils/utils'
+import { uuids, download, handleUpload } from '../utils/utils'
 
 const MgUploadAccessory = (props, ref) => {
   const {
     fileList = [],
     children,
-    uploadType = 'accessory',
+    // uploadType = 'accessory',
     length = 6,
     multiple = false,
     isDownload = false,
@@ -17,16 +17,28 @@ const MgUploadAccessory = (props, ref) => {
     handleDownload = () => { },
     imgBaseUrl = 'https://images.mogulinker.com',
   } = props
+  const autoUploadRef = useRef([])
+
   const [files, setFiles] = useState([]);
   const inputRef = useRef();
 
-  // 如果不自动上传，展示的文件列表只依赖传进来的fileList
+  // 如果不自动上传，展示的文件列表完全依赖传进来的fileList
   useEffect(() => {
     if (!autoUpload) {
       const newFileList = fileList.map(item => typeof item === 'object' && item.size ? item : initImage(item))
       setFiles(newFileList)
     }
   }, [fileList])
+
+  // 如果自动上传，fileList只做初始值
+  useEffect(() => {
+    if (autoUpload && fileList) {
+      autoUploadRef.current = fileList
+      const newFileList = fileList.map(item => initImage(item))
+      console.log(newFileList)
+      setFiles(newFileList)
+    }
+  }, [])
 
   // 初始化附件格式
   function initImage(file) {
@@ -55,29 +67,33 @@ const MgUploadAccessory = (props, ref) => {
       fileLists.push(file);
     });
     if (autoUpload) {
-      // // 自动上传就返回所有的key
-      // handleUpload(fileLists).then(res => {
-      //   if (res) {
-      //     handleChange([...fileList, ...res])
-      //     const addKeys = res.map(item => initImage(item))
-      //     autoUploadRef.current = [...fileList, ...res]
-      //     setFiles([...files, ...addKeys])
-      //   }
-      // })
+      console.log(fileLists)
+      // 自动上传就返回所有的key和name
+      handleUpload(fileLists).then(res => {
+        if (res) {
+          const addKeys = res.map(file => ({ name: file.name, key: file.key }))
+          const addFiles = addKeys.map(file => initImage(file))
+          // 自动上传-返回新增的文件keys和新增后所有的文件keys
+          handleChange(addKeys, [...files.map(file => ({ name: file.name, key: file.key })), ...addKeys])
+          autoUploadRef.current = [...files.map(file => ({ name: file.name, key: file.key })), ...addKeys]
+          setFiles([...files, ...addFiles])
+        }
+      })
     } else {
       // 自定义上传就返回新选择的图片对象
       handleChange(fileLists)
     }
-
   };
 
   // 移除的回调
   const handleDelete = (file, e) => {
     e.stopPropagation()
     const newFiles = files.filter(item => item.uid !== file.uid)
+    const filesKeys = newFiles.map(item => ({ name: item.name, key: item.key }))
     if (autoUpload) {
-      // setFiles(newFiles)
-      // handleRemove(file, newFilesKeys)
+      setFiles(newFiles)
+      autoUploadRef.current = filesKeys
+      handleRemove({ name: file.name, key: file.key }, filesKeys)
     } else {
       handleRemove(file, newFiles)
     }
@@ -85,15 +101,18 @@ const MgUploadAccessory = (props, ref) => {
 
   // 点击下载
   const handleDownloadFile = (file) => {
-    if (file.url) {
-      download(file.url, file.name)
-    } else {
-      download(window.URL.createObjectURL(file.originFileObj), file.name)
+    if (isDownload) {
+      download(file.url || window.URL.createObjectURL(file.originFileObj), file.name)
     }
     handleDownload(file)
   }
 
-  console.log(files)
+  const getAutoFileKeys = () => autoUploadRef.current
+
+  useImperativeHandle(ref, () => ({
+    getAutoFileKeys,
+  }))
+
   return (
     <div className='mg-upload'>
       <input
@@ -109,7 +128,7 @@ const MgUploadAccessory = (props, ref) => {
         <button
           className={files.length === length ? 'mg-upload-button-disabled' : 'mg-upload-button'}
           onClick={() => { inputRef.current.click() }}
-        // disabled={newFileList.length === length}
+          disabled={files.length === length}
         >
           {children || <div className='mg-upload-button-content'>
             <span className='mg-upload-button-content-icon'></span>选择文件
@@ -119,7 +138,7 @@ const MgUploadAccessory = (props, ref) => {
           <div
             className='mg-upload-accessory-item'
             key={item.uid}
-            onClick={isDownload ? () => handleDownloadFile(item) : null}
+            onClick={() => handleDownloadFile(item)}
           >
             <span style={{ display: 'flex', alignItems: 'center' }}>
               <span className='mg-upload-accessory-item-icon mg-upload-accessory-icon'></span>{item.name}

@@ -62,9 +62,9 @@ const handleUpload = async (fileList) => {
     return [];
   }
   // const token = await dispatch({ type: 'common/getQiniuToken' });
-  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:NqGoFVu8myRWsWzXslteu7uOIRE=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4MjU2Njk2fQ=="
+  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:I4MHgeFqAzOxlXyrb_10Wc1LyUo=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4MzQ5NzMyfQ=="
 
-  // // 获取已存在的文件的key
+  // 获取已存在的文件的key
   const existKeys = fileList.filter(item => item.key).map(item => item.key);
   // 获取新增的文件
   const addImageList = fileList.filter(item => !item.key);
@@ -84,17 +84,19 @@ const handleUpload = async (fileList) => {
       method: 'POST',
       data: formData,
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    }).then(res => res.data);
+    }).then(res => ({ ...res.data, name: file.name || '' }));
   });
   const imageSource = await Promise.all(promises);
+  console.log(imageSource)
+  return imageSource
   // 获取新增图片的keys
-  const addImageKeys = imageSource.map(item => {
-    const { key } = item;
-    return `${key}`;
-  });
-  // 获取所有图片keys
-  const imageKeysArr = existKeys.concat(addImageKeys);
-  return imageKeysArr;
+  // const addImageKeys = imageSource.map(item => {
+  //   const { key } = item;
+  //   return `${key}`;
+  // });
+  // // 获取所有图片keys
+  // const imageKeysArr = existKeys.concat(addImageKeys);
+  // return imageKeysArr;
 };
 
 export { uuids, download, handleUpload }
