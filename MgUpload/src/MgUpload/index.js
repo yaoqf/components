@@ -1,16 +1,18 @@
-import React, { useState, forwardRef, useRef } from "react";
+import React, { forwardRef, } from "react";
 import "./index.css";
-import { uuids, download } from '../utils/utils'
-import MgUploadAccessory from 'MgUploadAccessory';
-import MgUploadImage from 'prop-types';
-const imgBaseUrl = 'https://images.mogulinker.com';
+import MgUploadAccessory from '../MgUploadAccessory';
+import MgUploadImage from '../MgUploadImage';
 
 function MgUpload(props, ref) {
   const { uploadType = 'accessory', } = props
 
+  const mgUploadProps = {
+    ...props
+  }
+
   return (
     <>
-      {uploadType === 'picture' ? <MgUploadImage {...props} /> : <MgUploadAccessory {...props} />}
+      {uploadType === 'picture' ? <MgUploadImage {...mgUploadProps} ref={ref} /> : <MgUploadAccessory {...mgUploadProps} ref={ref} />}
     </>
   );
 }

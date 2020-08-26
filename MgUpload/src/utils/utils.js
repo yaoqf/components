@@ -65,7 +65,7 @@ const handleUpload = async (fileList) => {
   const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:I4MHgeFqAzOxlXyrb_10Wc1LyUo=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4MzQ5NzMyfQ=="
 
   // 获取已存在的文件的key
-  const existKeys = fileList.filter(item => item.key).map(item => item.key);
+  // const existKeys = fileList.filter(item => item.key).map(item => item.key);
   // 获取新增的文件
   const addImageList = fileList.filter(item => !item.key);
   // 获取所有新增的promise

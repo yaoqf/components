@@ -100,6 +100,7 @@ const MgUploadImage = (props, ref) => {
     // 获取自动上传的keys
     getAutoFileKeys,
   }))
+  console.log(files)
   return (
     <div className='mg-upload'>
       <input
