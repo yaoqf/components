@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
 import "./index.css";
 
-const MgUploadImage = (props, ref) => {
+const MgUploadImage = (props) => {
   const {
-    length = 6,
+    length = 30,
     files = [],
     inputRef,
     handleDelete = () => { },

@@ -2,11 +2,11 @@ import React, { forwardRef } from 'react';
 import './index.css';
 import { download } from '../utils/utils'
 
-const MgUploadAccessory = (props, ref) => {
+const MgUploadAccessory = (props) => {
   const {
     children,
     files = [],
-    length = 6,
+    length = 30,
     isDownload = false,
     inputRef,
     handleDownload = () => { },

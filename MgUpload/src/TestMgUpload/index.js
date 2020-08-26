@@ -2,11 +2,11 @@ import React, { useState, useRef } from 'react';
 import MgUpload from '../MgUpload';
 const imgBaseUrl = 'https://images.mogulinker.com';
 
-const MyUpload = () => {
+const TestMgUpload = () => {
 
   // 上传图片测试
-  // const [fileList, setFileList] = useState([
-  //   'fT9je2IQin1597980063634.jpeg', 'iXmVdQwkx91597980063635.jpeg', 'LyfrK9JXss1597980063635.jpeg', 'VZqpry58ZS1597980063635.jpeg', '8wG8BzJJ7F1597980063635.jpeg'])
+  const [fileList, setFileList] = useState([
+    'fT9je2IQin1597980063634.jpeg', 'iXmVdQwkx91597980063635.jpeg', 'LyfrK9JXss1597980063635.jpeg', 'VZqpry58ZS1597980063635.jpeg', '8wG8BzJJ7F1597980063635.jpeg'])
 
   // const handleChange = (addfiles, files) => {
   //   console.log(addfiles)
@@ -23,13 +23,13 @@ const MyUpload = () => {
 
 
   // 上传附件测试
-  const [fileList, setFileList] = useState([
-    { name: '1.jpeg', key: 'fT9je2IQin1597980063634.jpeg' },
-    { name: '2.jpeg', key: 'iXmVdQwkx91597980063635.jpeg' },
-    { name: '3.jpeg', key: 'LyfrK9JXss1597980063635.jpeg' },
-    { name: '4.jpeg', key: 'VZqpry58ZS1597980063635.jpeg' },
-    { name: '5.jpeg', key: '8wG8BzJJ7F1597980063635.jpeg' },
-  ])
+  // const [fileList, setFileList] = useState([
+  //   { name: '1.jpeg', key: 'fT9je2IQin1597980063634.jpeg' },
+  //   { name: '2.jpeg', key: 'iXmVdQwkx91597980063635.jpeg' },
+  //   { name: '3.jpeg', key: 'LyfrK9JXss1597980063635.jpeg' },
+  //   { name: '4.jpeg', key: 'VZqpry58ZS1597980063635.jpeg' },
+  //   { name: '5.jpeg', key: '8wG8BzJJ7F1597980063635.jpeg' },
+  // ])
 
   const uploadImageRef = useRef()
 
@@ -56,7 +56,7 @@ const MyUpload = () => {
         ref={uploadImageRef}
         handleChange={handleChange}
         handleRemove={handleRemove}
-        uploadType='accessory'
+        uploadType='picture'
         multiple={true}
         length={6}
         isDownload={true}
@@ -68,4 +68,4 @@ const MyUpload = () => {
   )
 }
 
-export default MyUpload;
+export default TestMgUpload;
