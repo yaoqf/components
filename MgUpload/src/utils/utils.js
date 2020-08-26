@@ -62,7 +62,7 @@ const handleUpload = async (fileList) => {
     return [];
   }
   // const token = await dispatch({ type: 'common/getQiniuToken' });
-  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:I4MHgeFqAzOxlXyrb_10Wc1LyUo=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4MzQ5NzMyfQ=="
+  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:AHD6WkumY_rF9VoGyWb-Iu2NiuI=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4NDEyNjM4fQ=="
 
   // 获取已存在的文件的key
   // const existKeys = fileList.filter(item => item.key).map(item => item.key);
