@@ -5,14 +5,15 @@ import { uuids, handleUpload } from '../utils/utils'
 
 function MgUpload(props, ref) {
   const {
+    token,
     uploadType = 'accessory',
     fileList = [],
     multiple = false,
     autoUpload = true,
     accept = '',
+    imgBaseUrl = 'https://images.mogulinker.com',
     handleChange = () => { },
     handleRemove = () => { },
-    imgBaseUrl = 'https://images.mogulinker.com',
   } = props
 
   const inputRef = useRef();
@@ -72,7 +73,7 @@ function MgUpload(props, ref) {
     });
     if (autoUpload) {
       // 自动上传就返回所有的key和name
-      handleUpload(fileLists).then(res => {
+      handleUpload(fileLists, token).then(res => {
         if (res) {
           if (uploadType === 'accessory') {
             const addKeys = res.map(file => ({ name: file.name, key: file.key }))

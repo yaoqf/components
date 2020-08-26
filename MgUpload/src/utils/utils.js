@@ -57,20 +57,15 @@ function getRandomStr(length = 5) {
   return ret;
 }
 
-const handleUpload = async (fileList) => {
-  if (fileList.length === 0) {
+const handleUpload = async (fileList, token) => {
+  if (fileList.length === 0 || !token) {
     return [];
   }
-  // const token = await dispatch({ type: 'common/getQiniuToken' });
-  const token = "SZdLpkTZbnBNqtRVogocYy9v5qZNmyqrYOMq75p3:AHD6WkumY_rF9VoGyWb-Iu2NiuI=:eyJzY29wZSI6Im1nbGluayIsImRlYWRsaW5lIjoxNTk4NDEyNjM4fQ=="
 
-  // 获取已存在的文件的key
-  // const existKeys = fileList.filter(item => item.key).map(item => item.key);
   // 获取新增的文件
   const addImageList = fileList.filter(item => !item.key);
   // 获取所有新增的promise
   const promises = addImageList.map(file => {
-    // add by Moriaty at 2020-8-16 start
     const { originFileObj, type } = file;
     // 获取后缀
     const suffix = type.split('/').reverse()[0];
@@ -89,14 +84,6 @@ const handleUpload = async (fileList) => {
   const imageSource = await Promise.all(promises);
   console.log(imageSource)
   return imageSource
-  // 获取新增图片的keys
-  // const addImageKeys = imageSource.map(item => {
-  //   const { key } = item;
-  //   return `${key}`;
-  // });
-  // // 获取所有图片keys
-  // const imageKeysArr = existKeys.concat(addImageKeys);
-  // return imageKeysArr;
 };
 
 export { uuids, download, handleUpload }
