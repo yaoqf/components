@@ -14,6 +14,7 @@ function MgUpload(props, ref) {
     imgBaseUrl = 'https://images.mogulinker.com',
     handleChange = () => { },
     handleRemove = () => { },
+    length,
   } = props
 
   const inputRef = useRef();
@@ -127,12 +128,15 @@ function MgUpload(props, ref) {
     getAutoFileKeys,
   }))
 
+  const sliceFiles = files.slice(0, length)
+
   const mgUploadProps = {
-    files,
+    files:sliceFiles,
     inputRef,
     handleDelete,
     ...props
   }
+
 
   return (
     <>
@@ -142,7 +146,7 @@ function MgUpload(props, ref) {
         type="file"
         accept={accept}
         multiple={multiple}
-        files={files}
+        files={sliceFiles}
         onChange={onChange}
       />
       {uploadType === 'picture' ? <MgUploadImage {...mgUploadProps} /> : <MgUploadAccessory {...mgUploadProps} />}

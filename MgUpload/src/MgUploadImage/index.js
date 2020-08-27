@@ -23,7 +23,7 @@ const MgUploadImage = (props) => {
         </div>)}
         <div
           className='mg-upload-picture-select'
-          style={{ display: files.length > length ? 'none' : 'flex' }}
+          style={{ display: files.length >= length ? 'none' : 'flex' }}
           onClick={() => { inputRef.current.click() }}
         >
           <div className='mg-upload-picture-select-content-icon'></div>
