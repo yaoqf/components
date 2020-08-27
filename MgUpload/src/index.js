@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 
-import MyUpload from "./MyUpload";
+import TestMgUpload from "./TestMgUpload";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <React.StrictMode>
-    <MyUpload />
+    <TestMgUpload />
   </React.StrictMode>,
   rootElement
 );

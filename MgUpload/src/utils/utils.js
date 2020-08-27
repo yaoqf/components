@@ -1,3 +1,4 @@
+import axios from 'axios';
 function uuids() {
   const s = [];
   const hexDigits = '0123456789abcdef';
@@ -13,4 +14,76 @@ function uuids() {
   return uuid;
 }
 
-export { uuids }
+function getBlob(url, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'blob';
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      cb(xhr.response);
+    }
+  };
+  xhr.send();
+}
+
+function saveAs(blob, filename) {
+  if (window.navigator.msSaveOrOpenBlob) {
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    var link = document.createElement('a');
+    var body = document.querySelector('body');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    link.style.display = 'none';
+    body.appendChild(link);
+    link.click();
+    body.removeChild(link);
+    window.URL.revokeObjectURL(link.href);
+  };
+}
+
+function download(url, filename) {
+  getBlob(url, function (blob) {
+    saveAs(blob, filename);
+  });
+};
+
+function getRandomStr(length = 5) {
+  const sourceStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let ret = '';
+  for (let i = 0; length > i; i += 1) {
+    ret += sourceStr.charAt(Math.floor(Math.random() * sourceStr.length));
+  }
+  return ret;
+}
+
+const handleUpload = async (fileList, token) => {
+  if (fileList.length === 0 || !token) {
+    return [];
+  }
+
+  // 获取新增的文件
+  const addImageList = fileList.filter(item => !item.key);
+  // 获取所有新增的promise
+  const promises = addImageList.map(file => {
+    const { originFileObj, type } = file;
+    // 获取后缀
+    const suffix = type.split('/').reverse()[0];
+
+    const formData = new FormData();
+    const key = getRandomStr(10) + new Date().getTime();
+    formData.append('file', originFileObj);
+    formData.append('token', token);
+    formData.append('key', `${key}.${suffix}`);
+    return axios('https://up.qbox.me/', {
+      method: 'POST',
+      data: formData,
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    }).then(res => ({ ...res.data, name: file.name || '' }));
+  });
+  const imageSource = await Promise.all(promises);
+  console.log(imageSource)
+  return imageSource
+};
+
+export { uuids, download, handleUpload }
