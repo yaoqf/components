@@ -16,13 +16,13 @@ import MgUpload from '@/components/MgUpload';
 | length          | 允许最大上传数量          |          Number           |   30    |
 | autoUpload      | 是否自动上传到七牛        |          Boolean          |  true   |
 | isDownload      | 是否支持下载              |          Boolean          |  false  |
-|                 |                           |                           |         |
-|                 |                           |                           |         |
-|                 |                           |                           |         |
 | handleChange    | 选择图片的回调            |       Fun(fileList)       |    -    |
 | handleRemove    | 点击移除文件的回调        |         Fun(file)         |    -    |
 | handleDownload  | 附件点击下载的回调        |         Fun(file)         |    -    |
 | beforeUoload    | 上传之前的回调            |    Fun(file,fileList)     |    -    |
+|                 |                           |                           |         |
+|                 |                           |                           |         |
+|                 |                           |                           |         |
 |                 |                           |                           |         |
 | ref             |                           |                           |         |
 | getAutoFileKeys | 自动上传时，获取所有的key |                           |         |

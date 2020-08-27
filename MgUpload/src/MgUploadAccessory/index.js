@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import './index.css';
 import { download } from '../utils/utils'
 
@@ -52,4 +52,4 @@ const MgUploadAccessory = (props) => {
   )
 }
 
-export default forwardRef(MgUploadAccessory);
+export default MgUploadAccessory;

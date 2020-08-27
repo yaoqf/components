@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import "./index.css";
 
 const MgUploadImage = (props) => {
@@ -34,4 +34,4 @@ const MgUploadImage = (props) => {
   )
 }
 
-export default forwardRef(MgUploadImage);
+export default MgUploadImage;

@@ -58,6 +58,7 @@ function MgUpload(props, ref) {
 
   const onChange = (info) => {
     const fileLists = [];
+    console.log(Object.entries(info.currentTarget.files))
     Object.entries(info.currentTarget.files).forEach(item => {
       const [key, value] = item;
       const file = {
