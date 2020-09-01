@@ -61,15 +61,15 @@ const TestUpload = (props) => {
   
   return (
     <Upload
-    	handleChange={handleChange}, // 选择附件的回调
-      handleRemove={handleRemove},  // 删除附件的回调
-    	fileList={fileList},  // 初始附件列表
-      multiple={true}, // 是否支持多选
-    	uploadType='accessory',  // 上传附件（accessory），上传图片（picture）
-    	length={6},  // 允许最大上传数量
-      isDownload={true}, // 是否支持下载
-      imgBaseUrl='https://images.mogulinker.com',  // 文件/图片基准路径
-			autoUpload={false},   // 是否自动上传到七牛
+    	handleChange={handleChange} // 选择附件的回调
+      handleRemove={handleRemove}  // 删除附件的回调
+    	fileList={fileList}  // 初始附件列表
+      multiple={true} // 是否支持多选
+    	uploadType='accessory'  // 上传附件（accessory），上传图片（picture）
+    	length={6}  // 允许最大上传数量
+      isDownload={true} // 是否支持下载
+      imgBaseUrl='https://images.mogulinker.com'  // 文件/图片基准路径
+			autoUpload={false}   // 是否自动上传到七牛
     />
   )
 }
@@ -105,14 +105,14 @@ const TestUpload = (props) => {
   
   return (
     <Upload
-    	ref={uploadImageRef},  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
-    	fileList={fileList},  // 初始附件列表
-      multiple={true}, // 是否支持多选
-    	uploadType='accessory',  // 上传附件（accessory），上传图片（picture）
-    	length={6},  // 允许最大上传数量
-      isDownload={true}, // 是否支持下载
-      imgBaseUrl='https://images.mogulinker.com',  // 文件/图片基准路径
-			autoUpload={false},   // 是否自动上传到七牛
+    	ref={uploadImageRef}  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
+    	fileList={fileList}  // 初始附件列表
+      multiple={true} // 是否支持多选
+    	uploadType='accessory'  // 上传附件（accessory），上传图片（picture）
+    	length={6}  // 允许最大上传数量
+      isDownload={true} // 是否支持下载
+      imgBaseUrl='https://images.mogulinker.com'  // 文件/图片基准路径
+			autoUpload={false}   // 是否自动上传到七牛
     />
   )
 }
@@ -159,15 +159,15 @@ const TestUpload = (props) => {
   
   return (
     <Upload
-    	handleChange={handleChange},
-      handleRemove={handleRemove},
-    	ref={uploadImageRef},  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
-    	fileList={fileList},  // 初始附件列表
-      multiple={true}, // 是否支持多选
-    	uploadType='picture',  // 上传附件（accessory），上传图片（picture）
-    	length={6},  // 允许最大上传数量
-      imgBaseUrl='https://images.mogulinker.com',  // 文件/图片基准路径
-			autoUpload={false},   // 是否自动上传到七牛
+    	handleChange={handleChange}
+      handleRemove={handleRemove}
+    	ref={uploadImageRef}  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
+    	fileList={fileList}  // 初始附件列表
+      multiple={true} // 是否支持多选
+    	uploadType='picture'  // 上传附件（accessory），上传图片（picture）
+    	length={6}  // 允许最大上传数量
+      imgBaseUrl='https://images.mogulinker.com'  // 文件/图片基准路径
+			autoUpload={false}   // 是否自动上传到七牛
     />
   )
 }
@@ -204,12 +204,12 @@ const TestUpload = (props) => {
   
   return (
     <Upload
-    	ref={uploadImageRef},  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
-    	fileList={fileList},  // 初始图片列表
-      multiple={true}, // 是否支持多选
-    	uploadType='picture',  // 上传附件（accessory），上传图片（picture）
-    	length={6},  // 允许最大上传数量
-      imgBaseUrl='https://images.mogulinker.com',  // 文件/图片基准路径
+    	ref={uploadImageRef}  // 自动上传只传入ref即可获得新增和删除附件后的文件数据
+    	fileList={fileList}  // 初始图片列表
+      multiple={true} // 是否支持多选
+    	uploadType='picture'  // 上传附件（accessory），上传图片（picture）
+    	length={6}  // 允许最大上传数量
+      imgBaseUrl='https://images.mogulinker.com'  // 文件/图片基准路径
 			autoUpload={true}   // 是否自动上传到七牛
     />
   )

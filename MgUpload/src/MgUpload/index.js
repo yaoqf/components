@@ -59,7 +59,6 @@ function MgUpload(props, ref) {
 
   const onChange = (info) => {
     const fileLists = [];
-    console.log(Object.entries(info.currentTarget.files))
     Object.entries(info.currentTarget.files).forEach(item => {
       const [key, value] = item;
       const file = {
@@ -86,7 +85,6 @@ function MgUpload(props, ref) {
             setFiles([...files, ...addFiles])
           } else {
             const addKeys = res.map(item => item.key)
-            console.log(addKeys)
             const addfiles = addKeys.map(item => initImage(item))
             // 自动上传返回新增了那些key和新增后所有的key
             handleChange(addKeys, [...files, ...addfiles].map(file => file.key))
@@ -136,7 +134,6 @@ function MgUpload(props, ref) {
     handleDelete,
     ...props
   }
-
 
   return (
     <>

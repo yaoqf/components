@@ -63,7 +63,6 @@ const TestMgUpload = () => {
         fileList={fileList}
         imgBaseUrl={imgBaseUrl}
         autoUpload={false} />
-      {/* <button onClick={handleClick}>点击</button> */}
     </div>
   )
 }
